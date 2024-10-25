@@ -4,28 +4,9 @@
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Unity Web Player | Rugartian project</title>
-
-    <script>
-      const startTime = performance.now(); // Track when loading starts
-
-      function onUnityLoaded() {
-        const endTime = performance.now(); // Track when Unity finishes loading
-        const loadingTime = (endTime - startTime).toFixed(2);
-        console.log(`Unity WebGL loaded in ${loadingTime} ms`);
-
-        // Optionally display the loading time on the page
-        const loadingInfo = document.getElementById('loading-time');
-        loadingInfo.innerText = `Page loaded in ${loadingTime} ms`;
-      }
-    </script>
   </head>
-
   <body style="text-align: center; padding: 0; border: 0; margin: 0;">
-    <canvas id="unity-canvas" width="960" height="600" tabindex="-1" 
-            style="width: 960px; height: 600px; background: #CCCCCC"></canvas>
-    
-    <div id="loading-time" style="margin-top: 10px; font-size: 18px; color: #333;"></div> <!-- Loading time display -->
-
+    <canvas id="unity-canvas" width=960 height=600 tabindex="-1" style="width: 960px; height: 600px; background: #CCCCCC"></canvas>
     <script src="Build/build.loader.js"></script>
     <script>
       if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
@@ -54,12 +35,24 @@
         productVersion: "0.1.0",
         // matchWebGLToCanvasSize: false, // Uncomment this to separately control WebGL canvas render size and DOM element size.
         // devicePixelRatio: 1, // Uncomment this to override low DPI rendering on high DPI displays.
-      }).then((unityInstance) => {
-        onUnityLoaded(); // Call this when Unity finishes loading
-      }).catch((message) => {
-        console.error(message);
       });
+    </script>
+    <button id="sendDataButton">Send Data to Unity</button>
+
+    <script>
+        // Wait until the Unity instance is ready
+        const unityInstance = window.unityInstance; // Get Unity instance (if assigned globally)
+    
+        document.getElementById("sendDataButton").addEventListener("click", () => {
+            const data = "Hello from HTML!"; // Example data
+    
+            // Use SendMessage to send data to Unity
+            if (unityInstance) {
+                unityInstance.SendMessage("Receiver", "ReceiveData", data);
+            } else {
+                console.error("Unity instance not found!");
+            }
+        });
     </script>
   </body>
 </html>
-
