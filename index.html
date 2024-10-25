@@ -6,15 +6,21 @@
     <title>Unity Web Player | Rugartian project</title>
   </head>
   <body style="text-align: center; padding: 0; border: 0; margin: 0;">
-    <canvas id="unity-canvas" width=960 height=600 tabindex="-1" style="width: 960px; height: 600px; background: #CCCCCC"></canvas>
+    <canvas id="unity-canvas" width="960" height="600" tabindex="-1" 
+            style="width: 960px; height: 600px; background: #CCCCCC;">
+    </canvas>
+
+    <!-- Button to send data to Unity -->
+    <button id="sendDataButton" style="margin-top: 20px;">Send Data to Unity</button>
+
     <script src="Build/build.loader.js"></script>
     <script>
+      // Adjust for mobile devices
       if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-        // Mobile device style: fill the whole browser client area with the game canvas:
         var meta = document.createElement('meta');
         meta.name = 'viewport';
         meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
-        document.getElementsByTagName('head')[0].appendChild(meta);
+        document.head.appendChild(meta);
 
         var canvas = document.querySelector("#unity-canvas");
         canvas.style.width = "100%";
@@ -24,6 +30,8 @@
         document.body.style.textAlign = "left";
       }
 
+      // Initialize Unity instance
+      let unityInstance;
       createUnityInstance(document.querySelector("#unity-canvas"), {
         arguments: [],
         dataUrl: "Build/build.data.unityweb",
@@ -33,26 +41,24 @@
         companyName: "DefaultCompany",
         productName: "Rugartian project",
         productVersion: "0.1.0",
-        // matchWebGLToCanvasSize: false, // Uncomment this to separately control WebGL canvas render size and DOM element size.
-        // devicePixelRatio: 1, // Uncomment this to override low DPI rendering on high DPI displays.
+      }).then((instance) => {
+        console.log("Unity instance is ready!");
+        unityInstance = instance; // Store the Unity instance globally
+      }).catch((message) => {
+        console.error("Unity failed to load:", message);
       });
-    </script>
-    <button id="sendDataButton">Send Data to Unity</button>
 
-    <script>
-        // Wait until the Unity instance is ready
-        const unityInstance = window.unityInstance; // Get Unity instance (if assigned globally)
-    
-        document.getElementById("sendDataButton").addEventListener("click", () => {
-            const data = "Hello from HTML!"; // Example data
-    
-            // Use SendMessage to send data to Unity
-            if (unityInstance) {
-                unityInstance.SendMessage("Receiver", "ReceiveData", data);
-            } else {
-                console.error("Unity instance not found!");
-            }
-        });
+      // Send data to Unity when button is clicked
+      document.getElementById("sendDataButton").addEventListener("click", () => {
+        const data = "Hello from HTML!";
+        if (unityInstance) {
+          unityInstance.SendMessage("Receiver", "ReceiveData", data); // Call Unity method
+          console.log("Data sent to Unity:", data);
+        } else {
+          console.error("Unity instance not found! Make sure Unity has loaded.");
+        }
+      });
     </script>
   </body>
 </html>
+
