@@ -52,7 +52,7 @@
       document.getElementById("sendDataButton").addEventListener("click", () => {
         const data = "Hello from HTML!";
         if (unityInstance) {
-          unityInstance.SendMessage("Receiver", "ReceiveData", data); // Call Unity method
+          unityInstance.SendMessage("Addressable_handler", "ReceiveData", data); // Call Unity method
           console.log("Data sent to Unity:", data);
         } else {
           console.error("Unity instance not found! Make sure Unity has loaded.");
