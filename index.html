@@ -47,7 +47,7 @@
             // Call the Unity method to handle the received data
             var unityInstance = document.getElementById("unityCanvas").unityInstance; // Adjust this as necessary
             if (unityInstance) {
-                unityInstance.SendMessage('WebGLCommunication', 'SendMessageFromJS', event.data);
+                unityInstance.SendMessage('WebGLDataReciver', 'SendMessageFromJS', event.data);
             } else {
                 console.error("Unity instance not found.");
             }
