@@ -32,22 +32,6 @@
       }
 
       // Initialize Unity instance
-      let unityInstance;
-      createUnityInstance(document.querySelector("#unity-canvas"), {
-        arguments: [],
-        dataUrl: "Build/build.data.unityweb",
-        frameworkUrl: "Build/build.framework.js.unityweb",
-        codeUrl: "Build/build.wasm.unityweb",
-        streamingAssetsUrl: "StreamingAssets",
-        companyName: "DefaultCompany",
-        productName: "Rugartian project",
-        productVersion: "0.1.0",
-      }).then((instance) => {
-        console.log("Unity instance is ready!");
-        unityInstance = instance; // Store the Unity instance globally
-      }).catch((message) => {
-        console.error("Unity failed to load:", message);
-      });
       
     </script>
 
