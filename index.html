@@ -6,21 +6,15 @@
     <title>Unity Web Player | Rugartian project</title>
   </head>
   <body style="text-align: center; padding: 0; border: 0; margin: 0;">
-    <canvas id="unity-canvas" width="960" height="600" tabindex="-1" 
-            style="width: 960px; height: 600px; background: #CCCCCC;">
-    </canvas>
-
-   
-
+    <canvas id="unity-canvas" width=960 height=600 tabindex="-1" style="width: 960px; height: 600px; background: #CCCCCC"></canvas>
     <script src="Build/build.loader.js"></script>
-     
     <script>
-      // Adjust for mobile devices
       if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+        // Mobile device style: fill the whole browser client area with the game canvas:
         var meta = document.createElement('meta');
         meta.name = 'viewport';
         meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
-        document.head.appendChild(meta);
+        document.getElementsByTagName('head')[0].appendChild(meta);
 
         var canvas = document.querySelector("#unity-canvas");
         canvas.style.width = "100%";
@@ -30,36 +24,18 @@
         document.body.style.textAlign = "left";
       }
 
-      // Initialize Unity instance
-      let unityInstance = null; // Store the Unity instance globally
-
-// Initialize Unity instance
-createUnityInstance(document.querySelector("#unity-canvas"), {
-  dataUrl: "Build/build.data.unityweb",
-  frameworkUrl: "Build/build.framework.js.unityweb",
-  codeUrl: "Build/build.wasm.unityweb",
-  streamingAssetsUrl: "StreamingAssets",
-  companyName: "DefaultCompany",
-  productName: "Rugartian project",
-  productVersion: "0.1.0",
-}).then((instance) => {
-  console.log("Unity instance is ready!");
-  unityInstance = instance; // Store instance globally
-}).catch((error) => {
-  console.error("Unity failed to load:", error);
-});
+      createUnityInstance(document.querySelector("#unity-canvas"), {
+        arguments: [],
+        dataUrl: "Build/build.data.unityweb",
+        frameworkUrl: "Build/build.framework.js.unityweb",
+        codeUrl: "Build/build.wasm.unityweb",
+        streamingAssetsUrl: "StreamingAssets",
+        companyName: "DefaultCompany",
+        productName: "Rugartian project",
+        productVersion: "0.1.0",
+        // matchWebGLToCanvasSize: false, // Uncomment this to separately control WebGL canvas render size and DOM element size.
+        // devicePixelRatio: 1, // Uncomment this to override low DPI rendering on high DPI displays.
+      });
     </script>
-
-    <script type="text/javascript">
-    function sendDataToUnity(data) {
-        // Get the Unity instance and call the C# method
-        var unityInstance = document.getElementById("unityCanvas").unityInstance;
-        if (unityInstance) {
-            unityInstance.SendMessage('WebGLCommunication', 'CallFromJS', data);
-        }
-    }
-</script>
-  
   </body>
 </html>
-
