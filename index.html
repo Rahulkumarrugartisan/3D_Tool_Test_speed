@@ -31,10 +31,34 @@
       }
 
       // Initialize Unity instance
-      
+      let unityInstance = null; // Store the Unity instance globally
+
+// Initialize Unity instance
+createUnityInstance(document.querySelector("#unity-canvas"), {
+  dataUrl: "Build/build.data.unityweb",
+  frameworkUrl: "Build/build.framework.js.unityweb",
+  codeUrl: "Build/build.wasm.unityweb",
+  streamingAssetsUrl: "StreamingAssets",
+  companyName: "DefaultCompany",
+  productName: "Rugartian project",
+  productVersion: "0.1.0",
+}).then((instance) => {
+  console.log("Unity instance is ready!");
+  unityInstance = instance; // Store instance globally
+}).catch((error) => {
+  console.error("Unity failed to load:", error);
+});
     </script>
 
-    <script src="unityReciver.js"></script>
+    <script type="text/javascript">
+    function sendDataToUnity(data) {
+        // Get the Unity instance and call the C# method
+        var unityInstance = document.getElementById("unityCanvas").unityInstance;
+        if (unityInstance) {
+            unityInstance.SendMessage('WebGLCommunication', 'CallFromJS', data);
+        }
+    }
+</script>
   
   </body>
 </html>
