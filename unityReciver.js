@@ -26,6 +26,19 @@ function sendDataToUnity(data) {
   }
 }
 
+// serverB.js
+const WebSocket = require('ws');
+
+const wss = new WebSocket.Server({ port: 8080 });
+
+wss.on('connection', ws => {
+    ws.on('message', message => {
+        console.log('Received from Server A:', message);
+        // Trigger some event or action based on the message
+    });
+
+    ws.send('Connected to Server B');
+});
 
 
 // Make the function globally accessible (optional)
