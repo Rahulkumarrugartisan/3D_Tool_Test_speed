@@ -8,3 +8,7 @@ function sendDataToUnity(data = "Hello from HTML!") {
         console.error("Unity instance not found!");
     }
 }
+
+document.getElementById("sendDataButton").addEventListener("click", () => {
+    sendDataToUnity("Custom Message from Button");
+});
