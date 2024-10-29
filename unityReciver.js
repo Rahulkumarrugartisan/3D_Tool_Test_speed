@@ -20,7 +20,7 @@ createUnityInstance(document.querySelector("#unity-canvas"), {
 function sendDataToUnity(data) {
   if (unityInstance) {
     console.log("Sending data to Unity:", data);
-    unityInstance.SendMessage("Receiver", "ReceiveData", data);
+    unityInstance.SendMessage("Addressable_handler", "ReceiveData", data);
   } else {
     console.error("Unity instance not found!");
   }
