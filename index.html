@@ -14,6 +14,7 @@
     <button id="sendDataButton" style="margin-top: 20px;">Send Data to Unity</button>
 
     <script src="Build/build.loader.js"></script>
+     <script src="unityReciver.js"></script>
     <script>
       // Adjust for mobile devices
       if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
@@ -48,16 +49,10 @@
         console.error("Unity failed to load:", message);
       });
 
-      // Send data to Unity when button is clicked
-      document.getElementById("sendDataButton").addEventListener("click", () => {
-        const data = "Hello from HTML!";
-        if (unityInstance) {
-          unityInstance.SendMessage("Addressable_handler", "ReceiveData", data); // Call Unity method
-          console.log("Data sent to Unity:", data);
-        } else {
-          console.error("Unity instance not found! Make sure Unity has loaded.");
-        }
-      });
+document.getElementById("sendDataButton").addEventListener("click", () => {
+    sendDataToUnity("Custom Message from Button");
+});
+      
     </script>
   </body>
 </html>
