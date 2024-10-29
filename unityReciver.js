@@ -26,10 +26,7 @@ function sendDataToUnity(data) {
   }
 }
 
-// Attach event listener to the button
-document.getElementById("sendDataButton").addEventListener("click", () => {
-  sendDataToUnity("Hello from JavaScript!");
-});
+
 
 // Make the function globally accessible (optional)
 window.sendDataToUnity = sendDataToUnity;
