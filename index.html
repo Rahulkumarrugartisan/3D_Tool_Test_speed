@@ -37,5 +37,23 @@
         // devicePixelRatio: 1, // Uncomment this to override low DPI rendering on high DPI displays.
       });
     </script>
+
+    <script type="text/javascript">
+    function initializeUnityCommunication() {
+        window.addEventListener("message", function(event) {
+            // Ensure the message comes from a trusted source
+            if (event.origin !== "https://rahulkumarrugartisan.github.io/Website_PDP") return;
+
+            // Call the Unity method to handle the received data
+            var unityInstance = document.getElementById("unityCanvas").unityInstance; // Adjust this as necessary
+            if (unityInstance) {
+                unityInstance.SendMessage('WebGLCommunication', 'SendMessageFromJS', event.data);
+            } else {
+                console.error("Unity instance not found.");
+            }
+        });
+    }
+</script>
+
   </body>
 </html>
