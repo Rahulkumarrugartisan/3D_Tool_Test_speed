@@ -43,7 +43,7 @@
 
         if (unityInstance) {
           // Send the message to Unity
-          unityInstance.SendMessage('WebGLDataReciver', 'SendMessageFromJS', event.data);
+          unityInstance.SendMessage('Addressable_handler', 'SendMessageFromJS', event.data);
           console.log("Message sent to Unity:", event.data);
         } else {
           console.error("Unity instance not found.");
