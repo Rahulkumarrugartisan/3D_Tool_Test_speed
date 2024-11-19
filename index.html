@@ -24,7 +24,6 @@
         document.body.style.textAlign = "left";
       }
 
-      let unityInstance = null; // Store the Unity instance globally
       createUnityInstance(document.querySelector("#unity-canvas"), {
         arguments: [],
         dataUrl: "Build/build.data.unityweb",
@@ -35,36 +34,8 @@
         productName: "Rugartian project",
         productVersion: "0.1.0",
         // matchWebGLToCanvasSize: false, // Uncomment this to separately control WebGL canvas render size and DOM element size.
-        // devicePixelRatio: 1, // Uncomment this to override low DPI rendering on high DPI displays
-
-       }).then((instance) => {
-      console.log("Unity instance is ready!");
-      unityInstance = instance; // Store instance globally
-      initializeUnityCommunication(); // Start listening for messages
-    }).catch((error) => {
-      console.error("Unity failed to load:", error);
-    });
-
-    // Message listener function
-    function initializeUnityCommunication() {
-      
-      console.log("Initializing communication...");
-
-      window.addEventListener("message", function(event) {
-        console.log("Received message:", event.data);
-
-        // Ensure the message is from a trusted origin (uncomment and adjust for your needs)
-        // if (event.origin !== "https://rahulkumarrugartisan.github.io/Website_PDP") return;
-
-        if (unityInstance) {
-          // Send the message to Unity
-          unityInstance.SendMessage('Addressable_handler', 'SendMessageFromJS', event.data);
-          console.log("Message sent to Unity:", event.data);
-        } else {
-          console.error("Unity instance not found.");
-        }
+        // devicePixelRatio: 1, // Uncomment this to override low DPI rendering on high DPI displays.
       });
-    }
     </script>
   </body>
 </html>
