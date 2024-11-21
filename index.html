@@ -3,28 +3,32 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes">
     <title>Unity Web Player | Rugartian project</title>
-  </head>
-  <body style="text-align: center; padding: 0; border: 0; margin: 0;">
-    <canvas id="unity-canvas" width=960 height=600 tabindex="-1" style="width: 960px; height: 600px; background: #CCCCCC"></canvas>
-    <script src="Build/build.loader.js"></script>
-    <script>
-      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-        // Mobile device style: fill the whole browser client area with the game canvas:
-        var meta = document.createElement('meta');
-        meta.name = 'viewport';
-        meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
-        document.getElementsByTagName('head')[0].appendChild(meta);
-
-        var canvas = document.querySelector("#unity-canvas");
-        canvas.style.width = "100%";
-        canvas.style.height = "100%";
-        canvas.style.position = "fixed";
-
-        document.body.style.textAlign = "left";
+    <style>
+      html, body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
       }
 
+      #unity-canvas {
+        display: block;
+        width: 100%;
+        height: 100%;
+        background: #CCCCCC;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="unity-canvas" tabindex="-1"></canvas>
+    <script src="Build/build.loader.js"></script>
+    <script>
       let unityInstance = null; // Store the Unity instance globally
+      
+      // Create the Unity instance
       createUnityInstance(document.querySelector("#unity-canvas"), {
         arguments: [],
         dataUrl: "Build/build.data.unityweb",
@@ -34,37 +38,46 @@
         companyName: "DefaultCompany",
         productName: "Rugartian project",
         productVersion: "0.1.0",
-        // matchWebGLToCanvasSize: false, // Uncomment this to separately control WebGL canvas render size and DOM element size.
-        // devicePixelRatio: 1, // Uncomment this to override low DPI rendering on high DPI displays
-
-       }).then((instance) => {
-      console.log("Unity instance is ready!");
-      unityInstance = instance; // Store instance globally
-      initializeUnityCommunication(); // Start listening for messages
-    }).catch((error) => {
-      console.error("Unity failed to load:", error);
-    });
-
-    // Message listener function
-    function initializeUnityCommunication() {
-      
-      console.log("Initializing communication...");
-
-      window.addEventListener("message", function(event) {
-        console.log("Received message:", event.data);
-
-        // Ensure the message is from a trusted origin (uncomment and adjust for your needs)
-        // if (event.origin !== "https://rahulkumarrugartisan.github.io/Website_PDP") return;
-
-        if (unityInstance) {
-          // Send the message to Unity
-          unityInstance.SendMessage('Addressable_handler', 'SendMessageFromJS', event.data);
-          console.log("Message sent to Unity:", event.data);
-        } else {
-          console.error("Unity instance not found.");
-        }
+      }).then((instance) => {
+        console.log("Unity instance is ready!");
+        unityInstance = instance; // Store instance globally
+        initializeUnityCommunication(); // Start listening for messages
+      }).catch((error) => {
+        console.error("Unity failed to load:", error);
       });
-    }
+
+      // Adjust canvas size on window resize
+      function resizeCanvas() {
+        const canvas = document.querySelector("#unity-canvas");
+        canvas.style.width = window.innerWidth + "px";
+        canvas.style.height = window.innerHeight + "px";
+      }
+
+      // Initialize canvas resizing and listen for window resize
+      window.addEventListener("resize", resizeCanvas);
+      resizeCanvas(); // Call on page load to set initial size
+
+      // Initialize communication with Unity
+      function initializeUnityCommunication() {
+        console.log("Initializing communication...");
+
+        window.addEventListener("message", function(event) {
+          console.log("Received message:", event.data);
+
+          // Ensure the message is from a trusted origin (uncomment and adjust for your needs)
+          // if (event.origin !== "https://rahulkumarrugartisan.github.io/Website_PDP") return;
+
+          if (unityInstance) {
+            // Send the message to Unity
+            unityInstance.SendMessage('Addressable_handler', 'SendMessageFromJS', event.data);
+            console.log("Message sent to Unity:", event.data);
+          } else {
+            console.error("Unity instance not found.");
+          }
+        });
+      }
     </script>
   </body>
+</html>
+
 </html>
