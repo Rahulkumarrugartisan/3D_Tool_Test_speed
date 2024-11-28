@@ -3,7 +3,6 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes">
     <title>Unity Web Player | Rugartian project</title>
     <style>
       html, body {
@@ -26,9 +25,9 @@
     <canvas id="unity-canvas" tabindex="-1"></canvas>
     <script src="Build/build.loader.js"></script>
     <script>
+
       let unityInstance = null; // Store the Unity instance globally
-      
-      // Create the Unity instance
+
       createUnityInstance(document.querySelector("#unity-canvas"), {
         arguments: [],
         dataUrl: "Build/build.data.unityweb",
@@ -38,6 +37,8 @@
         companyName: "DefaultCompany",
         productName: "Rugartian project",
         productVersion: "0.1.0",
+        // matchWebGLToCanvasSize: false, // Uncomment this to separately control WebGL canvas render size and DOM element size.
+        // devicePixelRatio: 1, // Uncomment this to override low DPI rendering on high DPI displays.
       }).then((instance) => {
         console.log("Unity instance is ready!");
         unityInstance = instance; // Store instance globally
